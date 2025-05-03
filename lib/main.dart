@@ -13,10 +13,12 @@ void main() async {
   Get.put(ThemeController());
   Get.put(TextSizeController());
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     final themeController = Get.find<ThemeController>();
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
               : ThemeMode.light,
           home: onboardingController.isFirstTime.value
               ? OnboardingPage()
-              : HomePage(),
+              : const HomePage(),
           builder: (context, child) {
             final textSizeController = Get.find<TextSizeController>();
             return Obx(() => MediaQuery(

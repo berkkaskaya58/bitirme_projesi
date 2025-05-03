@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
 
     // Butonlar için boyutları ayarlıyoruz
     double buttonWidth = pageWidth * 0.8; // Buton genişliği: Sayfanın %80'i
-    double buttonHeight = 50.0; // Sabit buton yüksekliği
+    double buttonHeight = pageHeight*0.07; // Sabit buton yüksekliği
 
     return Scaffold(
       appBar: AppBar(
@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
       ),
       body: Center( // Butonları ekranın ortasında hizalamak için Center widget'ı kullandık
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20), // Padding ekledik
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20), // Padding ekledik
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center, // Butonları dikeyde ortalamak
             crossAxisAlignment: CrossAxisAlignment.center, // Butonları yatayda ortalamak
@@ -35,25 +35,23 @@ class HomePage extends StatelessWidget {
                 height: buttonHeight,
                 title: UIText.words,
               ),
-              SizedBox(height: 20), // Butonlar arasında boşluk
+              const SizedBox(height: 20), // Butonlar arasında boşluk
               CustomButton(
                 width: buttonWidth,
                 height: buttonHeight,
                 title: UIText.syllables,
               ),
-              SizedBox(height: 20), // Butonlar arasında boşluk
+              const SizedBox(height: 20), // Butonlar arasında boşluk
               CustomButton(
                 width: buttonWidth,
                 height: buttonHeight,
                 title: UIText.letters,
-                func: () {
-                  Get.to(SettingsPage());
-                },
+               
               ),
-              SizedBox(height: 20), // Butonlar arasında boşluk
+              const SizedBox(height: 20), // Butonlar arasında boşluk
               CustomButton(
                 func: () {
-                  Get.to(SettingsPage());
+                  Get.to(SettingsPage(),transition: Transition.cupertino,duration: Duration(milliseconds: 800));
                 },
                 width: buttonWidth,
                 height: buttonHeight,

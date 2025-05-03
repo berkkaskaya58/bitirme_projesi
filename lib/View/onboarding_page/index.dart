@@ -1,6 +1,7 @@
 // lib/View/onboarding_page.dart
 import 'package:bitirme_projesi/View/home_page/index.dart';
 import 'package:bitirme_projesi/controller/onboarding_controller/index.dart';
+import 'package:bitirme_projesi/ui/ui_text/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,6 +15,8 @@ class OnboardingPage extends StatelessWidget {
   ];
 
   final PageController pageController = PageController();
+
+  OnboardingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +35,7 @@ class OnboardingPage extends StatelessWidget {
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
                     pages[index],
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -44,7 +47,7 @@ class OnboardingPage extends StatelessWidget {
                 children: List.generate(
                     pages.length,
                     (i) => Container(
-                          margin: EdgeInsets.all(4),
+                          margin: const EdgeInsets.all(4),
                           width: 10,
                           height: 10,
                           decoration: BoxDecoration(
@@ -54,24 +57,24 @@ class OnboardingPage extends StatelessWidget {
                                   : Colors.grey),
                         )),
               )),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Obx(() => currentPage.value == pages.length - 1
               ? ElevatedButton(
                   onPressed: () {
                     controller.completeOnboarding();
-                    Get.offAll(() => HomePage());
+                    Get.offAll(() => const HomePage(),transition: Transition.cupertino,duration: Duration(milliseconds: 800));
                   },
-                  child: Text("Başla"),
+                  child:  Text(UIText.start),
                 )
               : TextButton(
                   onPressed: () {
                     pageController.nextPage(
-                        duration: Duration(milliseconds: 300),
+                        duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut);
                   },
-                  child: Text("İleri"),
+                  child:  Text(UIText.next),
                 )),
-          SizedBox(height: 20)
+          const SizedBox(height: 20)
         ],
       ),
     );
