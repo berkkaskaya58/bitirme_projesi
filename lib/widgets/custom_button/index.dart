@@ -10,6 +10,7 @@ class CustomButton extends StatelessWidget {
   final double? borderRadius;
   final double? fontSize;
   final VoidCallback? func;
+  final VoidCallback? onIconTap; // 🔹 Yeni eklenen parametre
 
   const CustomButton({
     super.key,
@@ -22,6 +23,7 @@ class CustomButton extends StatelessWidget {
     this.borderRadius,
     this.fontSize,
     this.func,
+    this.onIconTap, // 🔹 Yeni parametreyi ekliyoruz
   });
 
   @override
@@ -33,35 +35,42 @@ class CustomButton extends StatelessWidget {
 
     return SizedBox(
       width: width,
-      height: height,  // Buton yüksekliği
+      height: height,
       child: ElevatedButton(
         onPressed: func,
         style: ElevatedButton.styleFrom(
           backgroundColor: bgColor,
           foregroundColor: fgColor,
           padding: const EdgeInsets.symmetric(
-            vertical: 6,  // Buton içinde yazı için biraz daha alan
-            horizontal: 15,  // Buton içinde yazı için biraz daha alan
+            vertical: 6,
+            horizontal: 15,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius ?? 16.0),
           ),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
           children: [
-            if (icon != null) ...[
-              Icon(icon, size: fontSize ?? 18),
-              const SizedBox(width: 8),
-            ],
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: fontSize ?? 18,
-                fontWeight: FontWeight.w600,
+            // Ortalanmış metin
+            Center(
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: fontSize ?? 18,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
+            // Sol üst köşeye ikon
+            if (icon != null)
+              Positioned(
+                left: 0,
+                child: IconButton(
+                  onPressed: onIconTap, // 🔹 İkon basılınca çalışacak fonksiyon
+                  icon: Icon(icon),
+                  color: fgColor,
+                ),
+              ),
           ],
         ),
       ),
