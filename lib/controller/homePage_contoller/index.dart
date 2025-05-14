@@ -1,23 +1,28 @@
-import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
+import 'package:just_audio/just_audio.dart';
 
 class HomePageController extends GetxController {
-  final FlutterTts _flutterTts = FlutterTts();
+  late AudioPlayer player;
 
   @override
   void onInit() {
     super.onInit();
-    _initTts();
+    player = AudioPlayer();
   }
 
-  void _initTts() async {
-    await _flutterTts.setLanguage("tr-TR");
-    await _flutterTts.setSpeechRate(0.5); 
-    await _flutterTts.setPitch(1.2); 
+  Future<void> playVoice(String path) async {
+    try {
+      await player.stop(); // Daha önceki sesi durdur
+      await player.setAsset(path); // Yeni sesi ayarla
+      await player.play(); // Sesi çal
+    } catch (e) {
+      print("Ses çalma hatası: $e");
+    }
   }
 
-  void speakText(String text) async {
-    await _flutterTts.stop(); 
-    await _flutterTts.speak(text);
+  @override
+  void onClose() {
+    player.dispose(); // Hafızayı temizle
+    super.onClose();
   }
 }

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:bitirme_projesi/View/settings_page/index.dart';
 import 'package:bitirme_projesi/ui/ui_icon/index.dart';
 import 'package:bitirme_projesi/ui/ui_text/index.dart';
+import 'package:bitirme_projesi/ui/ui_voice/index.dart';
 import 'package:bitirme_projesi/widgets/custom_button/index.dart';
 
 class HomePage extends StatelessWidget {
@@ -26,16 +27,15 @@ class HomePage extends StatelessWidget {
           child: Column(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(200),
-                child: Image.asset(UIImage.yaslilar)),
-
-                SizedBox(height:buttonHeight/1.3,),
+                  borderRadius: BorderRadius.circular(200),
+                  child: Image.asset(UIImage.yaslilar)),
+              SizedBox(height: buttonHeight / 1.3),
               CustomButton(
                 width: buttonWidth,
                 height: buttonHeight,
                 title: UIText.words,
                 icon: UIIcon.volume,
-                onIconTap: () => controller.speakText(UIText.words),
+                onIconTap: () => controller.playVoice(UIVoices.kelimeler),
               ),
               const SizedBox(height: 20),
               CustomButton(
@@ -43,7 +43,7 @@ class HomePage extends StatelessWidget {
                 height: buttonHeight,
                 title: UIText.syllables,
                 icon: UIIcon.volume,
-                onIconTap: () => controller.speakText(UIText.syllables),
+                onIconTap: () => controller.playVoice(UIVoices.heceler),
               ),
               const SizedBox(height: 20),
               CustomButton(
@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
                 height: buttonHeight,
                 title: UIText.letters,
                 icon: UIIcon.volume,
-                onIconTap: () => controller.speakText(UIText.letters),
+                onIconTap: () => controller.playVoice(UIVoices.harfler),
               ),
               const SizedBox(height: 20),
               CustomButton(
@@ -59,7 +59,7 @@ class HomePage extends StatelessWidget {
                 height: buttonHeight,
                 title: UIText.settings,
                 icon: UIIcon.volume,
-                onIconTap: () => controller.speakText(UIText.settings),
+                onIconTap: () => controller.playVoice(UIVoices.ayarlar),
                 func: () {
                   Get.to(SettingsPage(),
                       transition: Transition.cupertino,
