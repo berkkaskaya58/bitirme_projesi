@@ -2,12 +2,17 @@ import 'package:bitirme_projesi/View/home_page/index.dart';
 import 'package:bitirme_projesi/View/onboarding_page/index.dart';
 import 'package:bitirme_projesi/controller/onboarding_controller/index.dart';
 import 'package:bitirme_projesi/controller/theme_controller/index.dart';
+import 'package:bitirme_projesi/firebase_options.dart';
 import 'package:bitirme_projesi/size_controller/index.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+   await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   // Controller'ları başlat
   Get.put(ThemeController());
