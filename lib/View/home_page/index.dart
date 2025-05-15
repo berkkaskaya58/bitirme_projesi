@@ -21,7 +21,6 @@ class HomePage extends StatelessWidget {
     double buttonHeight = pageHeight * 0.07;
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 250, 201, 129),
       body: Center(
         child: SafeArea(
           child: Column(

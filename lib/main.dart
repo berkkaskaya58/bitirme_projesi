@@ -27,8 +27,22 @@ class MyApp extends StatelessWidget {
 
     return Obx(() => GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: ThemeData.light(),
-          darkTheme: ThemeData.dark(),
+          theme: ThemeData(
+            brightness: Brightness.light,
+            scaffoldBackgroundColor: const Color.fromARGB(255, 250, 201, 129),
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Color.fromARGB(255, 245, 189, 109),
+              foregroundColor: Colors.black,
+            ),
+          ),
+          darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            scaffoldBackgroundColor: const Color(0xFF121212),
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Color(0xFF1F1F1F),
+              foregroundColor: Colors.white,
+            ),
+          ),
           themeMode: themeController.isDarkMode.value
               ? ThemeMode.dark
               : ThemeMode.light,
