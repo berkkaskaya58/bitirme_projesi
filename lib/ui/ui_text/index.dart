@@ -8,4 +8,6 @@ class UIText {
   static String next = "İleri";
   static String darkMode = "Karanlık Mod";
   static String fontSize = "Yazı Boyutu";
+  static String test = "Test";
+   static String wordDrawing = "Kelime Çizme";
 }

@@ -40,6 +40,9 @@ dependencies:
   flutter_tts: ^4.2.2
   just_audio: ^0.9.46
   firebase_core: ^3.13.0
+  cloud_firestore: ^5.6.7
+  dotted_border: ^2.1.0
+  animated_text_kit: ^4.2.3
 
 dev_dependencies:
   flutter_test:
