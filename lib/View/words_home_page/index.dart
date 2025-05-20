@@ -1,4 +1,5 @@
 import 'package:bitirme_projesi/View/word_drawing_page/index.dart';
+import 'package:bitirme_projesi/View/word_test_page/index.dart';
 import 'package:bitirme_projesi/View/words_page/index.dart';
 import 'package:bitirme_projesi/controller/homePage_contoller/index.dart';
 import 'package:bitirme_projesi/ui/ui_images/index.dart';
@@ -80,9 +81,13 @@ class WordsHomePage extends StatelessWidget {
                 height: buttonHeight,
                 title: UIText.test,
                 icon: UIIcon.volume,
+                func: () {
+                  Get.to(TestPage());
+                },
                 onIconTap: () => controller.playVoice(UIVoices.harfler),
               ),
               const SizedBox(height: 20),
+              
             ],
           ),
         ),

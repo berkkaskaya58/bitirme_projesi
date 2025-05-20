@@ -6,4 +6,7 @@ class UIVoices {
                   static String heceler = "assets/voices/heceler.m4a";
                         static String harfler = "assets/voices/harfler.m4a";
                               static String kelimeler = "assets/voices/kelimeler.m4a";
+                               static String yanlis = "assets/voices/yanlis.m4a";
+                                static String dogru = "assets/voices/tebrikler.m4a";
+                                 static String tamamlandi = "assets/voices/tamamlandi.m4a";
 }
