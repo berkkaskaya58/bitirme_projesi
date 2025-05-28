@@ -22,10 +22,10 @@ class SyllablesPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Word:", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                          Text("Kelime:", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                           Text(controller.words[index]['originalText'], style: TextStyle(fontSize: 24)),
                           SizedBox(height: 10),
-                          Text("Syllables:", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                          Text("Hece:", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                           Text(controller.words[index]['syllables'], style: TextStyle(fontSize: 22, color: Colors.blue)),
                         ],
                       ),
