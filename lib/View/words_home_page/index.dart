@@ -1,3 +1,4 @@
+import 'package:bitirme_projesi/View/home_page/index.dart';
 import 'package:bitirme_projesi/View/word_drawing_page/index.dart';
 import 'package:bitirme_projesi/View/word_test_page/index.dart';
 import 'package:bitirme_projesi/View/words_page/index.dart';
@@ -35,7 +36,7 @@ class WordsHomePage extends StatelessWidget {
                   child: IconButton(
                     icon: const Icon(Icons.arrow_back, size: 30),
                     onPressed: () {
-                      Get.back(); // Önceki sayfaya dönüş
+                      Get.to(HomePage()); // Önceki sayfaya dönüş
                     },
                   ),
                 ),
@@ -72,7 +73,7 @@ class WordsHomePage extends StatelessWidget {
                 icon: UIIcon.volume,
                 onIconTap: () => controller.playVoice(UIVoices.heceler),
                 func: () {
-                  Get.to(WordAnimationScreen());
+                  Get.to(WritingPage());
                 },
               ),
               const SizedBox(height: 20),

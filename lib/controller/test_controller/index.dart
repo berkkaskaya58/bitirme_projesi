@@ -21,7 +21,7 @@ class TestPageController extends GetxController {
   void fetchQuestions() async {
     var snapshot = await FirebaseFirestore.instance.collection('words').get();
     questions.value = snapshot.docs.map((doc) {
-      String imageData = doc.data()?["imageBase64"] ?? "";
+      String imageData = doc.data()["imageBase64"] ?? "";
       return {'text': doc.id, 'imageBase64': imageData};
     }).toList();
   }
