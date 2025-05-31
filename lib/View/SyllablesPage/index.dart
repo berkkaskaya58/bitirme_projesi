@@ -11,7 +11,7 @@ class SyllablesPage extends StatelessWidget {
       appBar: AppBar(title: Text("Syllables Page")),
       body: Obx(
         () => controller.words.isEmpty
-            ? Center(child: CircularProgressIndicator())
+            ? Center(child: const CircularProgressIndicator())
             : ListView.builder(
                 itemCount: controller.words.length,
                 itemBuilder: (context, index) {

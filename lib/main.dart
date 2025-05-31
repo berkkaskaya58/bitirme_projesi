@@ -1,4 +1,5 @@
 import 'package:bitirme_projesi/View/home_page/index.dart';
+import 'package:bitirme_projesi/View/home_page_new/index.dart';
 import 'package:bitirme_projesi/View/onboarding_page/index.dart';
 import 'package:bitirme_projesi/controller/onboarding_controller/index.dart';
 import 'package:bitirme_projesi/controller/theme_controller/index.dart';
@@ -32,14 +33,16 @@ class MyApp extends StatelessWidget {
 
     return Obx(() => GetMaterialApp(
           debugShowCheckedModeBanner: false,
+         // ... existing code ...
           theme: ThemeData(
             brightness: Brightness.light,
-            scaffoldBackgroundColor: const Color.fromARGB(255, 250, 201, 129),
+            scaffoldBackgroundColor: Colors.white, // Sarımsı rengi beyaz yaptım
             appBarTheme: const AppBarTheme(
-              backgroundColor: Color.fromARGB(255, 245, 189, 109),
+              backgroundColor: Colors.white, // AppBar rengini de beyaz yaptım
               foregroundColor: Colors.black,
             ),
           ),
+// ... existing code ...
           darkTheme: ThemeData(
             brightness: Brightness.dark,
             scaffoldBackgroundColor: const Color(0xFF121212),
@@ -53,7 +56,7 @@ class MyApp extends StatelessWidget {
               : ThemeMode.light,
           home: onboardingController.isFirstTime.value
               ? OnboardingPage()
-              : const HomePage(),
+              :  HomePage(),
           builder: (context, child) {
             final textSizeController = Get.find<TextSizeController>();
             return Obx(() => MediaQuery(

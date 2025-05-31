@@ -10,7 +10,7 @@ class CustomButton extends StatelessWidget {
   final double? borderRadius;
   final double? fontSize;
   final VoidCallback? func;
-  final VoidCallback? onIconTap; // 🔹 Yeni eklenen parametre
+  final VoidCallback? onIconTap;
 
   const CustomButton({
     super.key,
@@ -23,15 +23,13 @@ class CustomButton extends StatelessWidget {
     this.borderRadius,
     this.fontSize,
     this.func,
-    this.onIconTap, // 🔹 Yeni parametreyi ekliyoruz
+    this.onIconTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-
-    final Color bgColor = backgroundColor ?? theme.colorScheme.primary;
-    final Color fgColor = foregroundColor ?? theme.colorScheme.onPrimary;
+    final Color bgColor = backgroundColor ?? const Color.fromARGB(255, 62, 86, 109);
+    final Color fgColor = foregroundColor ?? Colors.white;
 
     return SizedBox(
       width: width,
@@ -42,7 +40,6 @@ class CustomButton extends StatelessWidget {
           backgroundColor: bgColor,
           foregroundColor: fgColor,
           padding: const EdgeInsets.symmetric(
-            vertical: 6,
             horizontal: 15,
           ),
           shape: RoundedRectangleBorder(
@@ -51,7 +48,6 @@ class CustomButton extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            // Ortalanmış metin
             Center(
               child: Text(
                 title,
@@ -61,14 +57,18 @@ class CustomButton extends StatelessWidget {
                 ),
               ),
             ),
-            // Sol üst köşeye ikon
             if (icon != null)
               Positioned(
                 left: 0,
                 child: IconButton(
-                  onPressed: onIconTap, // 🔹 İkon basılınca çalışacak fonksiyon
+                  onPressed: onIconTap,
                   icon: Icon(icon),
                   color: fgColor,
+                  padding: const EdgeInsets.all(8),
+                  constraints: const BoxConstraints(
+                    minWidth: 48,
+                    minHeight: 48,
+                  ),
                 ),
               ),
           ],

@@ -13,22 +13,19 @@ class WordsPage extends StatelessWidget {
     double pageHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+     
+      appBar: AppBar(
+       
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Get.back(),
+        ),
+      ),
       body: Obx(
         () => controller.words.isEmpty
             ? const Center(child: CircularProgressIndicator())
             : Stack(
                 children: [
-                  Positioned(
-                    top: pageHeight * 0.07,
-                    left: pageWidth * 0.03,
-                    child: GestureDetector(
-                      onTap: () {
-                        print("Geri butonuna tıklandı!");
-                        Get.back();
-                      },
-                      child: Icon(Icons.arrow_back, size: 30, color: Colors.black),
-                    ),
-                  ),
                   PageView.builder(
                     controller: controller.pageController,
                     itemCount: controller.words.length,
@@ -36,31 +33,66 @@ class WordsPage extends StatelessWidget {
                       String text = controller.words[index]['text'];
                       Uint8List imageBytes = base64Decode(controller.words[index]['imageBase64']);
 
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            height: 400,
-                            child: Image.memory(imageBytes, fit: BoxFit.contain),
-                          ),
-                          SizedBox(height: 20),
-                          Text(text, style: TextStyle(fontSize: 50)),
-                          SizedBox(height: 40),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              IconButton(icon: Icon(Icons.arrow_back, size: 40), onPressed: controller.prevPage),
-                              IconButton(icon: Icon(Icons.arrow_forward, size: 40), onPressed: controller.nextPage),
-                            ],
-                          ),
-                        ],
+                      return Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: pageWidth * 0.9,
+                              height: pageHeight * 0.5,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                               
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.memory(imageBytes, fit: BoxFit.contain),
+                              ),
+                            ),
+                            SizedBox(height: pageHeight * 0.03),
+                            Container(
+                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                             
+                              child: Text(
+                                text,
+                                style: TextStyle(
+                                  fontSize: pageHeight * 0.05,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: pageHeight * 0.03),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                ElevatedButton.icon(
+                                  icon: Icon(Icons.arrow_back),
+                                  
+                                  onPressed: controller.prevPage,
+                                  style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                                  ), label: Text(""),
+                                ),
+                                ElevatedButton.icon(
+                                  icon: Icon(Icons.arrow_forward),
+                                  
+                                  onPressed: controller.nextPage,
+                                  style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                                  ), label: Text(""),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       );
                     },
                   ),
                 ],
               ),
       ),
+
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:bitirme_projesi/View/home_page/index.dart';
+import 'package:bitirme_projesi/View/home_page_new/index.dart';
 import 'package:bitirme_projesi/View/word_drawing_page/index.dart';
 import 'package:bitirme_projesi/View/word_test_page/index.dart';
 import 'package:bitirme_projesi/View/words_page/index.dart';
@@ -36,7 +36,9 @@ class WordsHomePage extends StatelessWidget {
                   child: IconButton(
                     icon: const Icon(Icons.arrow_back, size: 30),
                     onPressed: () {
-                      Get.to(HomePage()); // Önceki sayfaya dönüş
+                       Get.to(() => const HomePage(),
+                  transition: Transition.cupertino,
+                  duration: const Duration(milliseconds: 500));
                     },
                   ),
                 ),

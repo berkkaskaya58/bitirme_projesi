@@ -9,5 +9,8 @@ class UIText {
   static String darkMode = "Karanlık Mod";
   static String fontSize = "Yazı Boyutu";
   static String test = "Test";
-   static String wordDrawing = "Kelime Çizme";
+  static String wordDrawing = "Kelime Çizme";
+  static String anasayfa1 = " Hoş Geldiniz";
+  static String anaSayfa2 =
+      "Okuma yazma becerilerinizi geliştirmek için tasarlanmış bu uygulamada, sizler için özel olarak hazırlanmış dersler ve alıştırmalar bulacaksınız.";
 }

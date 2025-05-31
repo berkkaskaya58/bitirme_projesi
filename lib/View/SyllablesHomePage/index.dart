@@ -1,5 +1,6 @@
 import 'package:bitirme_projesi/View/SyllablesPage/index.dart';
 import 'package:bitirme_projesi/View/home_page/index.dart';
+import 'package:bitirme_projesi/View/home_page_new/index.dart';
 import 'package:bitirme_projesi/View/word_drawing_page/index.dart';
 import 'package:bitirme_projesi/View/word_test_page/index.dart';
 import 'package:bitirme_projesi/View/words_page/index.dart';

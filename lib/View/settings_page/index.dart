@@ -26,7 +26,7 @@ class SettingsPage extends StatelessWidget {
             const SizedBox(height: 20),
              Text(UIText.fontSize, style: const TextStyle(fontSize: 18)),
             Obx(() => Slider(
-                  min: 0.8,
+                  min: 1.2,
                   max: 1.5,
                   divisions: 7,
                   value: textSizeController.textScale.value,
