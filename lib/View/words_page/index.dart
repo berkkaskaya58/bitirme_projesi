@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 import 'package:bitirme_projesi/controller/wordsPage_controller/index.dart';
+import 'package:bitirme_projesi/ui/ui_icon/index.dart';
+import 'package:bitirme_projesi/widgets/custom_button/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
@@ -13,9 +15,7 @@ class WordsPage extends StatelessWidget {
     double pageHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-     
       appBar: AppBar(
-       
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Get.back(),
@@ -31,10 +31,11 @@ class WordsPage extends StatelessWidget {
                     itemCount: controller.words.length,
                     itemBuilder: (context, index) {
                       String text = controller.words[index]['text'];
-                      Uint8List imageBytes = base64Decode(controller.words[index]['imageBase64']);
+                      Uint8List imageBytes =
+                          base64Decode(controller.words[index]['imageBase64']);
 
                       return Container(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -43,7 +44,6 @@ class WordsPage extends StatelessWidget {
                               height: pageHeight * 0.5,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
-                               
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(12),
@@ -52,8 +52,7 @@ class WordsPage extends StatelessWidget {
                             ),
                             SizedBox(height: pageHeight * 0.03),
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                             
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                               child: Text(
                                 text,
                                 style: TextStyle(
@@ -66,21 +65,19 @@ class WordsPage extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                ElevatedButton.icon(
-                                  icon: Icon(Icons.arrow_back),
-                                  
-                                  onPressed: controller.prevPage,
-                                  style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                                  ), label: Text(""),
+                                CustomButton(
+                                   width: pageWidth / 5.5,
+                                  height: pageHeight * 0.05,
+                                  title: "",
+                                  icon: UIIcon.back,
+                                  func: controller.prevPage,
                                 ),
-                                ElevatedButton.icon(
-                                  icon: Icon(Icons.arrow_forward),
-                                  
-                                  onPressed: controller.nextPage,
-                                  style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                                  ), label: Text(""),
+                                CustomButton(
+                                  width: pageWidth / 5.5,
+                                  height: pageHeight * 0.05,
+                                  title: "",
+                                  icon: UIIcon.forward, 
+                                  func: controller.nextPage,
                                 ),
                               ],
                             ),
@@ -92,7 +89,6 @@ class WordsPage extends StatelessWidget {
                 ],
               ),
       ),
-
     );
   }
 }

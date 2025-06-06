@@ -1,12 +1,8 @@
+import 'package:bitirme_projesi/controller/writing_controller/index.dart';
 import 'package:bitirme_projesi/Utils/drawing_utils/index.dart';
-import 'package:bitirme_projesi/widgets/action_buttons/index.dart';
 import 'package:bitirme_projesi/widgets/drawing_canvas/index.dart';
-import 'package:bitirme_projesi/widgets/eraser_size_dialog/index.dart';
-import 'package:bitirme_projesi/widgets/feedback_icon/index.dart';
-import 'package:bitirme_projesi/widgets/tool_panel/index.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
-
+import 'package:get/get.dart';
 
 class WritingPage extends StatefulWidget {
   const WritingPage({super.key});
@@ -15,86 +11,21 @@ class WritingPage extends StatefulWidget {
   State<WritingPage> createState() => _WritingPageState();
 }
 
-class _WritingPageState extends State<WritingPage> with TickerProviderStateMixin {
+class _WritingPageState extends State<WritingPage> {
+  final WritingController controller = Get.put(WritingController());
   final GlobalKey _paintKey = GlobalKey();
   List<List<Offset?>> _paths = [[]];
   int _pathIndex = 0;
-  bool _isCorrect = false;
-  final List<String> _wordList = ['elma', 'masa', 'okul'];
-  int _currentIndex = 0;
-
   Color _penColor = Colors.black;
   double _penWidth = 4.0;
   bool _isEraser = false;
   double _eraserSize = 12.0;
 
-  FlutterTts flutterTts = FlutterTts();
-  AnimationController? _animationController;
-  String _animatedText = '';
-
-  @override
-  void initState() {
-    super.initState();
-    _initTTS();
-    _startLetterAnimation();
-  }
-
-  void _initTTS() async {
-    await flutterTts.setLanguage("tr-TR");
-    await flutterTts.setSpeechRate(0.4);
-    await flutterTts.setPitch(1.0);
-  }
-
-  void _speakWord(String word) {
-    flutterTts.speak("Lütfen şu kelimeyi yaz: $word");
-  }
-
-  void _startLetterAnimation() {
-    final word = _wordList[_currentIndex];
-    _animatedText = '';
-    _animationController?.dispose();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: word.length * 600),
-    )..addListener(() {
-      final int currentLetter = (_animationController!.value * word.length).floor();
-      if (currentLetter < word.length) {
-        setState(() {
-          _animatedText = word.substring(0, currentLetter + 1);
-        });
-      }
-    })..forward();
-    _speakWord(word);
-  }
-
   void _clearDrawing() {
     setState(() {
       _paths = [[]];
       _pathIndex = 0;
-      _isCorrect = false;
     });
-    _startLetterAnimation();
-  }
-
-  void _nextWord() {
-    setState(() {
-      _currentIndex = (_currentIndex + 1) % _wordList.length;
-      _clearDrawing();
-    });
-  }
-
-  void _previousWord() {
-    setState(() {
-      _currentIndex = (_currentIndex - 1 + _wordList.length) % _wordList.length;
-      _clearDrawing();
-    });
-  }
-
-  void _checkIfCorrect(Size size) {
-    if (isDrawingCorrect(_paths, size)) {
-      setState(() => _isCorrect = true);
-      flutterTts.speak("Harika! Doğru yazdın");
-    }
   }
 
   void _undo() {
@@ -118,61 +49,186 @@ class _WritingPageState extends State<WritingPage> with TickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    final targetWord = _wordList[_currentIndex];
+    double pageWidth = MediaQuery.of(context).size.width;
+    double pageHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Kelime Yazma'), backgroundColor: Colors.green.shade700),
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              Expanded(
-                child: DrawingCanvas(
-                  key: _paintKey,
-                  paths: _paths,
-                  pathIndex: _pathIndex,
-                  penColor: _penColor,
-                  penWidth: _penWidth,
-                  eraserSize: _eraserSize,
-                  isEraser: _isEraser,
-                  animatedText: _animatedText,
-                  isCorrect: _isCorrect,
-                  onPanStart: () {
-                    if (_pathIndex != _paths.length - 1) {
-                      _paths = _paths.sublist(0, _pathIndex + 1);
-                    }
-                    _paths.add([]);
-                    _pathIndex++;
-                  },
-                  onPanUpdate: (offset) {
-                    setState(() {
-                      _paths[_pathIndex].add(offset);
-                    });
-                  },
-                  onPanEnd: (size) => _checkIfCorrect(size),
-                ),
-              ),
-              ActionButtons(
-                onNext: _nextWord,
-                onPrevious: _previousWord,
-                onUndo: _undo,
-                onRedo: _redo,
-              ),
-            ],
-          ),
-          ToolPanel(
-            penColor: _penColor,
-            isEraser: _isEraser,
-            eraserSize: _eraserSize,
-            onPenSelected: _togglePen,
-            onEraserSelected: () => showEraserSizeDialog(context, _eraserSize, (v) {
-              setState(() => _eraserSize = v);
-              _toggleEraser();
-            }),
-          ),
-          if (_isCorrect) const FeedbackIcon(),
-        ],
+      appBar: AppBar(
+        title: const Text('Kelime Yazma'),
+        backgroundColor: Colors.teal,
       ),
+      body: Obx(() {
+        // Kelime değiştiğinde çizimi temizle
+        if (controller.clearDrawing.value) {
+          _clearDrawing();
+          controller.drawingCleared();
+        }
+
+        return controller.words.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : Stack(
+                children: [
+                  Column(
+                    children: [
+                      // Kelime Gösterimi
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: Text(
+                          controller.words[controller.currentIndex.value]['text'],
+                          style: TextStyle(
+                            fontSize: pageHeight * 0.05,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.teal,
+                          ),
+                        ),
+                      ),
+                      // Çizim Alanı
+                      Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.teal, width: 2),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: DrawingCanvas(
+                            key: _paintKey,
+                            paths: _paths,
+                            pathIndex: _pathIndex,
+                            penColor: _penColor,
+                            penWidth: _penWidth,
+                            eraserSize: _eraserSize,
+                            isEraser: _isEraser,
+                            animatedText: controller.animatedText.value,
+                            isCorrect: controller.isCorrect.value,
+                            onPanStart: () {
+                              if (_pathIndex != _paths.length - 1) {
+                                _paths = _paths.sublist(0, _pathIndex + 1);
+                              }
+                              _paths.add([]);
+                              _pathIndex++;
+                            },
+                            onPanUpdate: (offset) {
+                              setState(() {
+                                _paths[_pathIndex].add(offset);
+                              });
+                            },
+                            onPanEnd: (size) {
+                              bool isCorrect = DrawingUtils.isDrawingCorrect(
+                                _paths,
+                                size,
+                                controller.words[controller.currentIndex.value]['text']
+                              );
+                              controller.checkAnswer(isCorrect);
+                            },
+                          ),
+                        ),
+                      ),
+                      // Kontrol Butonları
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.arrow_back),
+                              onPressed: controller.previousWord,
+                              color: Colors.teal,
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.undo),
+                              onPressed: _undo,
+                              color: Colors.teal,
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: _clearDrawing,
+                              color: Colors.teal,
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.redo),
+                              onPressed: _redo,
+                              color: Colors.teal,
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.arrow_forward),
+                              onPressed: controller.nextWord,
+                              color: Colors.teal,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  // Araç Çubuğu
+                  Positioned(
+                    right: 16,
+                    top: pageHeight * 0.2,
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () => _togglePen(Colors.black),
+                            color: _isEraser ? Colors.grey : Colors.black,
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.color_lens),
+                            onPressed: () => _togglePen(Colors.blue),
+                            color: _isEraser ? Colors.grey : Colors.blue,
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.brush),
+                            onPressed: () => _togglePen(Colors.red),
+                            color: _isEraser ? Colors.grey : Colors.red,
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.cleaning_services),
+                            onPressed: _toggleEraser,
+                            color: _isEraser ? Colors.teal : Colors.grey,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // Sadece Doğru Cevap Göstergesi
+                  if (controller.isAnswered.value && controller.isCorrect.value)
+                    Positioned(
+                      top: pageHeight * 0.1,
+                      left: 0,
+                      right: 0,
+                      child: Center(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Text(
+                            "✅ Harika!",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              );
+      }),
     );
   }
 }

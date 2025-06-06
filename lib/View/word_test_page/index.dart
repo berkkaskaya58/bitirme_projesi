@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:bitirme_projesi/controller/test_controller/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +15,7 @@ class TestPage extends StatelessWidget {
       appBar: AppBar(title: Text("Test Sayfası")),
       body: Center(
         child: Obx(() => controller.questions.isEmpty
-            ? CircularProgressIndicator()
+            ? const CircularProgressIndicator()
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -25,10 +24,10 @@ class TestPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text("✅ Doğru: ${controller.correctAnswers.value}",
-                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.green)),
-                      SizedBox(width: 20),
+                          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.green)),
+                      const SizedBox(width: 20),
                       Text("❌ Yanlış: ${controller.wrongAnswers.value}",
-                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.red)),
+                          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.red)),
                     ],
                   ),
                   SizedBox(height: pageHeight * 0.02),
@@ -46,15 +45,15 @@ class TestPage extends StatelessWidget {
                         Positioned(
                           top: pageHeight * 0.05,
                           child: Container(
-                            width: pageWidth * 0.9,
-                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                            width: pageWidth * 0.95,
+                            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
                             decoration: BoxDecoration(
                               color: Colors.blue.withOpacity(0.7),
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                            child: Text(
+                            child: const Text(
                               "🏆 Test tamamlandı!", // **Sadece bu mesaj gösterilecek**
-                              style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+                              style: TextStyle(fontSize: 28, color: Colors.white, fontWeight: FontWeight.bold),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -66,10 +65,9 @@ class TestPage extends StatelessWidget {
                   // **Şıklar - Kullanıcı seçim yaptıysa butonlar devre dışı**
                   Column(
                     children: List.generate(3, (index) {
-                      String choice = controller.questions[index % controller.questions.length]['text'];
                       return Obx(() => ElevatedButton(
-                        onPressed: controller.isAnswered.value ? null : () => controller.checkAnswer(choice), 
-                        child: Text(choice, style: TextStyle(fontSize: 20)),
+                        onPressed: controller.isAnswered.value ? null : () => controller.checkAnswer(controller.currentChoices[index]), 
+                        child: Text(controller.currentChoices[index], style: const TextStyle(fontSize: 20)),
                       ));
                     }),
                   ),

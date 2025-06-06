@@ -1,5 +1,5 @@
 import 'package:bitirme_projesi/View/SyllablesHomePage/index.dart';
-import 'package:bitirme_projesi/View/words_home_page/index.dart';
+import 'package:bitirme_projesi/View/words_home_page_new/index.dart';
 import 'package:bitirme_projesi/controller/homePage_contoller/index.dart';
 import 'package:bitirme_projesi/ui/ui_images/index.dart';
 import 'package:flutter/material.dart';

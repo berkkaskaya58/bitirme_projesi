@@ -6,4 +6,10 @@ class UIIcon {
   static const IconData back = Icons.arrow_back;
   static const IconData edit = Icons.edit;
   static const IconData forward = Icons.arrow_forward;
+  static const IconData profile = Icons.person;
+  static const IconData home = Icons.home;
+  static const IconData book = Icons.book;
+  static const IconData test = Icons.question_mark;
+  static const IconData word = Icons.book;
+ 
 }

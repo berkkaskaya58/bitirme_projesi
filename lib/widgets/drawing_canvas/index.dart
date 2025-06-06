@@ -1,3 +1,4 @@
+import 'package:bitirme_projesi/Utils/drawing_utils/index.dart';
 import 'package:flutter/material.dart';
 
 class DrawingCanvas extends StatelessWidget {
@@ -47,7 +48,6 @@ class DrawingCanvas extends StatelessWidget {
           color: penColor,
           strokeWidth: isEraser ? eraserSize : penWidth,
           isEraser: isEraser,
-          animatedText: animatedText,
         ),
         child: Container(),
       ),
@@ -60,36 +60,25 @@ class _DrawingPainter extends CustomPainter {
   final Color color;
   final double strokeWidth;
   final bool isEraser;
-  final String animatedText;
 
   _DrawingPainter({
     required this.paths,
     required this.color,
     required this.strokeWidth,
     required this.isEraser,
-    required this.animatedText,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
-    final bgText = TextPainter(
-      text: TextSpan(
-        text: animatedText,
-        style: TextStyle(fontSize: 140, color: Colors.grey.shade300, fontWeight: FontWeight.bold),
-      ),
-      textDirection: TextDirection.ltr,
-    )..layout(maxWidth: size.width);
-
-    bgText.paint(canvas, Offset((size.width - bgText.width) / 2, (size.height - bgText.height) / 2));
-
-    final paint = Paint()
-      ..color = isEraser ? Colors.white : color
-      ..strokeWidth = strokeWidth
-      ..strokeCap = StrokeCap.round;
-
+    // Çizimleri çiz
     for (final path in paths) {
       for (int i = 0; i < path.length - 1; i++) {
         if (path[i] != null && path[i + 1] != null) {
+          final paint = Paint()
+            ..color = isEraser ? Colors.white : color
+            ..strokeWidth = strokeWidth
+            ..strokeCap = StrokeCap.round;
+
           canvas.drawLine(path[i]!, path[i + 1]!, paint);
         }
       }

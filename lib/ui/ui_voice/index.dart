@@ -9,4 +9,5 @@ class UIVoices {
                                static String yanlis = "assets/voices/yanlis.m4a";
                                 static String dogru = "assets/voices/tebrikler.m4a";
                                  static String tamamlandi = "assets/voices/tamamlandi.m4a";
+                                  static String alistirma = "assets/voices/alistirma.m4a";
 }
