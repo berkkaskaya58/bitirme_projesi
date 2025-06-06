@@ -1,4 +1,5 @@
 import 'package:bitirme_projesi/View/SyllablesHomePage/index.dart';
+import 'package:bitirme_projesi/View/SyllablesHomePageNew/index.dart';
 import 'package:bitirme_projesi/View/words_home_page_new/index.dart';
 import 'package:bitirme_projesi/controller/homePage_contoller/index.dart';
 import 'package:bitirme_projesi/ui/ui_images/index.dart';
@@ -82,7 +83,7 @@ class HomePage extends StatelessWidget {
             icon: UIIcon.volume,
             onIconTap: () => controller.playVoice(UIVoices.heceler),
             func: () {
-              Get.to(() => const SyllablesHomePage(),
+              Get.to(() =>  SyllablesHomePage(),
                   transition: Transition.cupertino,
                   duration: const Duration(milliseconds: 800));
             },
