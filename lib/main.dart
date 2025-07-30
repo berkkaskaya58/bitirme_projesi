@@ -1,4 +1,3 @@
-import 'package:bitirme_projesi/View/home_page/index.dart';
 import 'package:bitirme_projesi/View/home_page_new/index.dart';
 import 'package:bitirme_projesi/View/onboarding_page/index.dart';
 import 'package:bitirme_projesi/controller/onboarding_controller/index.dart';

@@ -1,4 +1,3 @@
-import 'package:bitirme_projesi/View/SyllablesHomePage/index.dart';
 import 'package:bitirme_projesi/View/SyllablesHomePageNew/index.dart';
 import 'package:bitirme_projesi/View/alphabetPage/index.dart';
 import 'package:bitirme_projesi/View/words_home_page_new/index.dart';

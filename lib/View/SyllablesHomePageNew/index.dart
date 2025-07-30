@@ -74,7 +74,7 @@ class _SyllablesHomePageState extends State<SyllablesHomePage> {
             selectedColor: Colors.teal,
           ),
            SalomonBottomBarItem(
-            icon: const Icon(Icons.person_pin_circle),
+            icon: const Icon(Icons.text_fields),
             title: const Text("Test"),
             selectedColor: Colors.teal,
           ),
