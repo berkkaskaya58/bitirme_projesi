@@ -1,5 +1,6 @@
 import 'package:bitirme_projesi/View/SyllablesPage/index.dart';
 import 'package:bitirme_projesi/View/home_page_new/index.dart';
+import 'package:bitirme_projesi/View/syllablesTest/index.dart';
 import 'package:bitirme_projesi/controller/homePage_contoller/index.dart';
 import 'package:bitirme_projesi/ui/ui_voice/index.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class _SyllablesHomePageState extends State<SyllablesHomePage> {
   final List<Widget> _pages = [
    /*  WordsPage(), */
     SyllablesPage(),
+    SyllablesTestPage(),
     /* TestPage(), */
   ];
 
@@ -27,8 +29,10 @@ class _SyllablesHomePageState extends State<SyllablesHomePage> {
   Widget build(BuildContext context) {
     double pageWidth = MediaQuery.of(context).size.width;
     double pageHeight = MediaQuery.of(context).size.height;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
+      backgroundColor: isDarkMode ? Colors.black : Colors.white,
       body: Stack(
         children: [
           _pages[_currentIndex],
@@ -36,8 +40,13 @@ class _SyllablesHomePageState extends State<SyllablesHomePage> {
             top: pageHeight * 0.03,
             left: pageWidth * 0.04,
             child: IconButton(
-              icon: const Icon(Icons.arrow_back, size: 30),
-              onPressed: () => Get.to(() => const HomePage()),
+              icon: Icon(
+                Icons.arrow_back,
+                size: 30,
+                color: isDarkMode ? Colors.white : Colors.black,
+              ),
+              onPressed: () => Get.to(() => const HomePage(), transition: Transition.cupertino,
+                  duration: const Duration(milliseconds: 700)),
             ),
           ),
         ],
@@ -49,6 +58,8 @@ class _SyllablesHomePageState extends State<SyllablesHomePage> {
 
           if (index == 0) {
             homeController.playVoice(UIVoices.heceler);
+          } else if (index == 1) {
+            homeController.playVoice(UIVoices.alistirma);
           }
         },
         items: [
@@ -60,6 +71,11 @@ class _SyllablesHomePageState extends State<SyllablesHomePage> {
           SalomonBottomBarItem(
             icon: const Icon(Icons.draw),
             title: const Text("Heceler"),
+            selectedColor: Colors.teal,
+          ),
+           SalomonBottomBarItem(
+            icon: const Icon(Icons.person_pin_circle),
+            title: const Text("Test"),
             selectedColor: Colors.teal,
           ),
          /*  SalomonBottomBarItem(

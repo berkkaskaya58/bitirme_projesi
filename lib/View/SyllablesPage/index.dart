@@ -1,8 +1,11 @@
 import 'package:bitirme_projesi/controller/SyllablesPageController/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class SyllablesPage extends StatelessWidget {
+  final FlutterTts flutterTts = FlutterTts();
+
   @override
   Widget build(BuildContext context) {
     final SyllablesPageController controller = Get.put(SyllablesPageController());
@@ -31,7 +34,7 @@ class SyllablesPage extends StatelessWidget {
               : ListView.builder(
                   padding: EdgeInsets.symmetric(
                     horizontal: pageWidth * 0.05,
-                    vertical: pageHeight * 0.08,
+                    vertical: pageHeight * 0.09,
                   ),
                   itemCount: controller.words.length,
                   itemBuilder: (context, index) {
@@ -73,6 +76,21 @@ class SyllablesPage extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       color: Colors.teal.shade700,
                                     ),
+                                  ),
+                                  Spacer(),
+                                  // SES İKONU SAĞDA
+                                  IconButton(
+                                    icon: Icon(Icons.volume_up, color: Colors.teal, size: 28),
+                                    onPressed: () async {
+                                      await flutterTts.setLanguage("tr-TR");
+                                      await flutterTts.setSpeechRate(0.4); // Konuşma hızı yavaşlatıldı
+                                      String syllables = controller.words[index]['syllables'];
+                                      List<String> heceler = syllables.split('-');
+                                      for (var hece in heceler) {
+                                        await flutterTts.speak(hece.trim());
+                                        await Future.delayed(Duration(milliseconds: 600));
+                                      }
+                                    },
                                   ),
                                 ],
                               ),

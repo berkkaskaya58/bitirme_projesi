@@ -1,5 +1,6 @@
 import 'package:bitirme_projesi/View/SyllablesHomePage/index.dart';
 import 'package:bitirme_projesi/View/SyllablesHomePageNew/index.dart';
+import 'package:bitirme_projesi/View/alphabetPage/index.dart';
 import 'package:bitirme_projesi/View/words_home_page_new/index.dart';
 import 'package:bitirme_projesi/controller/homePage_contoller/index.dart';
 import 'package:bitirme_projesi/ui/ui_images/index.dart';
@@ -85,7 +86,7 @@ class HomePage extends StatelessWidget {
             func: () {
               Get.to(() =>  SyllablesHomePage(),
                   transition: Transition.cupertino,
-                  duration: const Duration(milliseconds: 800));
+                  duration: const Duration(milliseconds: 500));
             },
           ),
           SizedBox(height: pageHeight * 0.015),
@@ -96,9 +97,9 @@ class HomePage extends StatelessWidget {
             icon: UIIcon.volume,
             onIconTap: () => controller.playVoice(UIVoices.harfler),
             func: () {
-              Get.to(() => const WordsHomePage(),
+              Get.to(() => const AlphabetPage(),
                   transition: Transition.cupertino,
-                  duration: const Duration(milliseconds: 800));
+                  duration: const Duration(milliseconds:500));
             },
           ),
           SizedBox(height: pageHeight * 0.015 ),

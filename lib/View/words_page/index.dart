@@ -5,14 +5,23 @@ import 'package:bitirme_projesi/widgets/custom_button/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class WordsPage extends StatelessWidget {
+  final FlutterTts flutterTts = FlutterTts(); // TTS nesnesi
+
   @override
   Widget build(BuildContext context) {
     final WordsPageController controller = Get.put(WordsPageController());
 
     double pageWidth = MediaQuery.of(context).size.width;
     double pageHeight = MediaQuery.of(context).size.height;
+
+    // Sayfa değişiminde otomatik okuma fonksiyonu
+    void speakText(String text) async {
+      await flutterTts.setLanguage("tr-TR");
+      await flutterTts.speak(text);
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -22,72 +31,86 @@ class WordsPage extends StatelessWidget {
         ),
       ),
       body: Obx(
-        () => controller.words.isEmpty
-            ? const Center(child: CircularProgressIndicator())
-            : Stack(
-                children: [
-                  PageView.builder(
-                    controller: controller.pageController,
-                    itemCount: controller.words.length,
-                    itemBuilder: (context, index) {
-                      String text = controller.words[index]['text'];
-                      Uint8List imageBytes =
-                          base64Decode(controller.words[index]['imageBase64']);
+        () {
+          if (controller.words.isEmpty) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            // İlk açılışta ilk kelimeyi oku
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (controller.pageController.hasClients && controller.words.isNotEmpty) {
+                int page = controller.pageController.page?.round() ?? 0;
+                speakText(controller.words[page]['text']);
+              }
+            });
+            return Stack(
+              children: [
+                PageView.builder(
+                  controller: controller.pageController,
+                  itemCount: controller.words.length,
+                  onPageChanged: (index) {
+                    speakText(controller.words[index]['text']);
+                  },
+                  itemBuilder: (context, index) {
+                    String text = controller.words[index]['text'];
+                    Uint8List imageBytes =
+                        base64Decode(controller.words[index]['imageBase64']);
 
-                      return Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: pageWidth * 0.9,
-                              height: pageHeight * 0.5,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.memory(imageBytes, fit: BoxFit.contain),
+                    return Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: pageWidth * 0.9,
+                            height: pageHeight * 0.5,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.memory(imageBytes, fit: BoxFit.contain),
+                            ),
+                          ),
+                          SizedBox(height: pageHeight * 0.03),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            child: Text(
+                              text,
+                              style: TextStyle(
+                                fontSize: pageHeight * 0.05,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: pageHeight * 0.03),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                              child: Text(
-                                text,
-                                style: TextStyle(
-                                  fontSize: pageHeight * 0.05,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                          ),
+                          SizedBox(height: pageHeight * 0.03),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              CustomButton(
+                                width: pageWidth / 5.5,
+                                height: pageHeight * 0.05,
+                                title: "",
+                                icon: UIIcon.back,
+                                func: controller.prevPage,
                               ),
-                            ),
-                            SizedBox(height: pageHeight * 0.03),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                CustomButton(
-                                   width: pageWidth / 5.5,
-                                  height: pageHeight * 0.05,
-                                  title: "",
-                                  icon: UIIcon.back,
-                                  func: controller.prevPage,
-                                ),
-                                CustomButton(
-                                  width: pageWidth / 5.5,
-                                  height: pageHeight * 0.05,
-                                  title: "",
-                                  icon: UIIcon.forward, 
-                                  func: controller.nextPage,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
+                              CustomButton(
+                                width: pageWidth / 5.5,
+                                height: pageHeight * 0.05,
+                                title: "",
+                                icon: UIIcon.forward, 
+                                func: controller.nextPage,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
+            );
+          }
+        },
       ),
     );
   }
